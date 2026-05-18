@@ -77,18 +77,21 @@ class PasswordHealthViewModel @Inject constructor(
             }
 
             is DataState.Loading -> {
+                computeJob?.cancel()
                 mutableStateFlow.value = state.copy(
                     viewState = PasswordHealthState.ViewState.Loading,
                 )
             }
 
             is DataState.Error -> {
+                computeJob?.cancel()
                 mutableStateFlow.value = state.copy(
                     viewState = PasswordHealthState.ViewState.Content(emptyList()),
                 )
             }
 
             is DataState.NoNetwork -> {
+                computeJob?.cancel()
                 mutableStateFlow.value = state.copy(
                     viewState = PasswordHealthState.ViewState.Content(emptyList()),
                 )
