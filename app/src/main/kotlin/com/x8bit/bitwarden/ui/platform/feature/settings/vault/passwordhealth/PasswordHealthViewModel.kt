@@ -86,14 +86,14 @@ class PasswordHealthViewModel @Inject constructor(
             is DataState.Error -> {
                 computeJob?.cancel()
                 mutableStateFlow.value = state.copy(
-                    viewState = PasswordHealthState.ViewState.Content(emptyList()),
+                    viewState = PasswordHealthState.ViewState.Error,
                 )
             }
 
             is DataState.NoNetwork -> {
                 computeJob?.cancel()
                 mutableStateFlow.value = state.copy(
-                    viewState = PasswordHealthState.ViewState.Content(emptyList()),
+                    viewState = PasswordHealthState.ViewState.Error,
                 )
             }
 
@@ -196,6 +196,11 @@ data class PasswordHealthState(
         data class Content(
             val groups: List<ReusedPasswordGroup>,
         ) : ViewState()
+
+        /**
+         * Error state when vault data fails to load.
+         */
+        data object Error : ViewState()
     }
 }
 
