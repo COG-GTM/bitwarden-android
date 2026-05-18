@@ -34,6 +34,8 @@ import com.x8bit.bitwarden.ui.platform.feature.settings.flightrecorder.recordedL
 import com.x8bit.bitwarden.ui.platform.feature.settings.other.navigateToOther
 import com.x8bit.bitwarden.ui.platform.feature.settings.other.otherDestination
 import com.x8bit.bitwarden.ui.platform.feature.settings.vault.navigateToVaultSettings
+import com.x8bit.bitwarden.ui.platform.feature.settings.vault.passwordhealth.navigateToPasswordHealth
+import com.x8bit.bitwarden.ui.platform.feature.settings.vault.passwordhealth.passwordHealthDestination
 import com.x8bit.bitwarden.ui.platform.feature.settings.vault.vaultSettingsDestination
 import com.x8bit.bitwarden.ui.platform.feature.premium.plan.navigateToPlan
 import com.x8bit.bitwarden.ui.platform.feature.premium.plan.planDestination
@@ -176,6 +178,10 @@ fun NavGraphBuilder.settingsGraph(
             onNavigateToFolders = onNavigateToFolders,
             onNavigateToImportLogins = onNavigateToImportLogins,
             onNavigateToImportItems = onNavigateToImportItems,
+            onNavigateToPasswordHealth = { navController.navigateToPasswordHealth() },
+        )
+        passwordHealthDestination(
+            onNavigateBack = { navController.popBackStack() },
         )
         importItemsDestination(
             onNavigateBack = { navController.popBackStack() },
