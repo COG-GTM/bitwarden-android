@@ -11,6 +11,7 @@ import com.x8bit.bitwarden.data.vault.manager.CipherManager
 import com.x8bit.bitwarden.data.vault.manager.VaultSyncManager
 import com.x8bit.bitwarden.data.vault.manager.model.GetCipherResult
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -30,6 +31,8 @@ class PasswordHealthViewModel @Inject constructor(
 ) : BaseViewModel<PasswordHealthState, PasswordHealthEvent, PasswordHealthAction>(
     initialState = PasswordHealthState(),
 ) {
+    private var computeJob: Job? = null
+
     init {
         vaultSyncManager
             .vaultDataStateFlow
@@ -66,7 +69,8 @@ class PasswordHealthViewModel @Inject constructor(
                 val cipherListViews = dataState.data
                     .decryptCipherListResult
                     .successes
-                viewModelScope.launch {
+                computeJob?.cancel()
+                computeJob = viewModelScope.launch {
                     val groups = computeReusedPasswordGroups(cipherListViews)
                     sendAction(PasswordHealthAction.Internal.ReusedGroupsComputed(groups))
                 }
@@ -94,7 +98,8 @@ class PasswordHealthViewModel @Inject constructor(
                 val cipherListViews = dataState.data
                     .decryptCipherListResult
                     .successes
-                viewModelScope.launch {
+                computeJob?.cancel()
+                computeJob = viewModelScope.launch {
                     val groups = computeReusedPasswordGroups(cipherListViews)
                     sendAction(PasswordHealthAction.Internal.ReusedGroupsComputed(groups))
                 }
