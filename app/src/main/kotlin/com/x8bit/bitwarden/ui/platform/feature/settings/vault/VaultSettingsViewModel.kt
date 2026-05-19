@@ -82,6 +82,7 @@ class VaultSettingsViewModel @Inject constructor(
         VaultSettingsAction.ImportItemsClick -> handleImportItemsClicked()
         VaultSettingsAction.ImportLoginsCardCtaClick -> handleImportLoginsCardClicked()
         VaultSettingsAction.ImportLoginsCardDismissClick -> handleImportLoginsCardDismissClicked()
+        VaultSettingsAction.PasswordHealthClick -> handlePasswordHealthClicked()
         is VaultSettingsAction.Internal -> handleInternalAction(action)
     }
 
@@ -142,6 +143,10 @@ class VaultSettingsViewModel @Inject constructor(
         sendEvent(VaultSettingsEvent.NavigateToFolders)
     }
 
+    private fun handlePasswordHealthClicked() {
+        sendEvent(VaultSettingsEvent.NavigateToPasswordHealth)
+    }
+
     private fun handleImportItemsClicked() {
         if (!buildInfoManager.isFdroid &&
             featureFlagManager.getFeatureFlag(FlagKey.CredentialExchangeProtocolImport) &&
@@ -192,6 +197,11 @@ sealed class VaultSettingsEvent {
     data object NavigateToFolders : VaultSettingsEvent()
 
     /**
+     * Navigate to the Password Health screen.
+     */
+    data object NavigateToPasswordHealth : VaultSettingsEvent()
+
+    /**
      * Shows a snackbar with the given [data].
      */
     data class ShowSnackbar(val data: BitwardenSnackbarData) : VaultSettingsEvent(), BackgroundEvent
@@ -230,6 +240,11 @@ sealed class VaultSettingsAction {
      * Indicates that the user dismissed the action card.
      */
     data object ImportLoginsCardDismissClick : VaultSettingsAction()
+
+    /**
+     * Indicates that the user clicked the Password Health button.
+     */
+    data object PasswordHealthClick : VaultSettingsAction()
 
     /**
      * Internal actions not performed by user interation

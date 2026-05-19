@@ -53,6 +53,7 @@ fun VaultSettingsScreen(
     onNavigateToFolders: () -> Unit,
     onNavigateToImportLogins: () -> Unit,
     onNavigateToImportItems: () -> Unit,
+    onNavigateToPasswordHealth: () -> Unit,
     viewModel: VaultSettingsViewModel = hiltViewModel(),
 ) {
     val state by viewModel.stateFlow.collectAsStateWithLifecycle()
@@ -65,6 +66,7 @@ fun VaultSettingsScreen(
             VaultSettingsEvent.NavigateToFolders -> onNavigateToFolders()
             is VaultSettingsEvent.NavigateToImportVault -> onNavigateToImportLogins()
             is VaultSettingsEvent.NavigateToImportItems -> onNavigateToImportItems()
+            VaultSettingsEvent.NavigateToPasswordHealth -> onNavigateToPasswordHealth()
             is VaultSettingsEvent.ShowSnackbar -> snackbarHostState.showSnackbar(event.data)
         }
     }
@@ -136,6 +138,17 @@ fun VaultSettingsScreen(
                 cardStyle = CardStyle.Middle(),
                 modifier = Modifier
                     .testTag("ExportVaultLabel")
+                    .standardHorizontalMargin()
+                    .fillMaxWidth(),
+            )
+
+            BitwardenTextRow(
+                text = stringResource(BitwardenString.password_health),
+                onClick = { viewModel.trySendAction(VaultSettingsAction.PasswordHealthClick) },
+                withDivider = false,
+                cardStyle = CardStyle.Middle(),
+                modifier = Modifier
+                    .testTag("PasswordHealthLabel")
                     .standardHorizontalMargin()
                     .fillMaxWidth(),
             )
