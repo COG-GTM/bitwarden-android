@@ -168,32 +168,63 @@ class ExampleRepositoryTest {
 
 ## D. Test Data Builders
 
-### Builder Pattern with Number Parameter
-
-**Location:** `network/src/testFixtures/kotlin/com/bitwarden/network/model/`
+All builders share the **`number: Int`** convention — pass a number and every field is
+derived deterministically (`"mockId-$number"`, `"mockName-$number"`, ...), with per-field
+overrides via named defaults.
 
 ```kotlin
-fun createMockCipher(
-    number: Int,
-    id: String = "mockId-$number",
-    name: String? = "mockName-$number",
-    // ... more parameters with defaults
-): SyncResponseJson.Cipher
-
-// Usage:
-val cipher1 = createMockCipher(number = 1)  // mockId-1, mockName-1
-val cipher2 = createMockCipher(number = 2)  // mockId-2, mockName-2
-val custom = createMockCipher(number = 3, name = "Custom")
+val cipher1 = createMockCipher(number = 1)              // mockId-1, mockName-1
+val custom  = createMockCipher(number = 3, name = "X")  // override a single field
 ```
 
-**Available Builders (35+):**
+### CRITICAL: Pick the builder family that matches the layer under test
+
+There are **two distinct families** of `createMock*` builders that return **different types**.
+Using the wrong one is a common source of "type mismatch" churn. Choose by what your
+subject-under-test actually consumes:
+
+| Family | Location | Returns | Use when testing |
+|--------|----------|---------|------------------|
+| **SDK / domain (`*View`, `Sdk*`)** | `app/src/test/kotlin/com/x8bit/bitwarden/data/vault/datasource/sdk/model/` | Bitwarden SDK domain types (`CipherView`, `CipherListView`, `LoginView`, `SendView`, `CollectionView`, `FolderView`, ...) | **ViewModels, Compose screens, repositories** — anything working with decrypted domain objects (e.g. `DataState<List<CipherListView>>`) |
+| **Network JSON** | `network/src/testFixtures/kotlin/com/bitwarden/network/model/` | `SyncResponseJson.*` DTOs | **Services / network layer**, sync parsing, `MockWebServer` bodies |
+
+> Rule of thumb: if you're above the repository boundary (UI/ViewModel) you almost always
+> want the **SDK/domain** builders; if you're at or below the network boundary you want the
+> **JSON** builders. Repositories may need both (JSON in, domain out).
+
+### SDK / Domain Builders (`data/vault/datasource/sdk/model/`)
+
+Decrypted domain types consumed by ViewModels, screens, and repository outputs.
+
+```kotlin
+val cipher = createMockCipherView(number = 1)   // CipherView
+val login  = createMockLoginView(number = 1)    // LoginView
+
+// List views (used by vault listing UI / DataState<List<CipherListView>>):
+val listItem = createMockCipherListView(
+    number = 1,
+    name = "Alpha Site",
+    type = CipherListViewType.Login(createMockLoginListView(number = 1)),
+)
+```
+
+- **Views:** `createMockCipherView()`, `createMockLoginView()`, `createMockCardView()`, `createMockIdentityView()`, `createMockSecureNoteView()`, `createMockSshKeyView()`, `createMockFieldView()`, `createMockUriView()`, `createMockPasswordHistoryView()`, `createMockAttachmentView()`, `createMockFolderView()`, `createMockCollectionView()`, `createMockSendView()`, `createMockTextView()`, `createMockFileView()`, `createMockFido2CredentialView()`
+- **List views:** `createMockCipherListView()`, `createMockLoginListView()`, `createMockCardListView()`, `createMockFido2CredentialListView()`
+- **Encrypted SDK (`Sdk*`):** `createMockSdkCipher()`, `createMockSdkLogin()`, `createMockSdkCard()`, `createMockSdkIdentity()`, `createMockSdkSecureNote()`, `createMockSdkSshKey()`, `createMockSdkField()`, `createMockSdkUri()`, `createMockSdkFolder()`, `createMockSdkCollection()`, `createMockSdkSend()`, `createMockSdkText()`, `createMockSdkFile()`, `createMockSdkFido2Credential()`
+- **Misc:** `createMockAccount()`, `createMockEncryptionContext()`, `createMockDecryptCipherListResult()`
+
+### Network JSON Builders (`network/src/testFixtures/`)
+
+`SyncResponseJson.*` DTOs for service/network tests.
+
 - **Cipher:** `createMockCipher()`, `createMockLogin()`, `createMockCard()`, `createMockIdentity()`, `createMockSecureNote()`, `createMockSshKey()`, `createMockField()`, `createMockUri()`, `createMockFido2Credential()`, `createMockPasswordHistory()`, `createMockCipherPermissions()`
 - **Sync:** `createMockSyncResponse()`, `createMockFolder()`, `createMockCollection()`, `createMockPolicy()`, `createMockDomains()`
 - **Send:** `createMockSend()`, `createMockFile()`, `createMockText()`, `createMockSendJsonRequest()`
 - **Profile:** `createMockProfile()`, `createMockOrganization()`, `createMockProvider()`, `createMockPermissions()`
 - **Attachments:** `createMockAttachment()`, `createMockAttachmentJsonRequest()`, `createMockAttachmentResponse()`
 
-See `network/src/testFixtures/kotlin/com/bitwarden/network/model/` for full list.
+Lists above are representative; `grep -r "fun createMock" <dir>` in either directory for the
+full, current set before hand-rolling your own fixture.
 
 ---
 
@@ -301,7 +332,7 @@ Key Bitwarden-specific testing patterns:
 2. **BitwardenComposeTest** - Pre-configured with all managers and theme
 3. **BaseServiceTest** - MockWebServer setup for network testing
 4. **Turbine Flow Testing** - StateFlow (replay) vs EventFlow (no replay)
-5. **Test Data Builders** - Consistent `number: Int` parameter pattern
+5. **Test Data Builders** - Consistent `number: Int` pattern; pick the family (SDK/domain `*View` for UI/ViewModel/repo, network JSON for services) that matches the layer under test
 6. **Fake Implementations** - FakeDispatcherManager, FakeConfigDiskSource
 7. **Result Type Testing** - `.asSuccess()`, `.asFailure()`
 
