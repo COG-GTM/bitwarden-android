@@ -48,6 +48,7 @@ include(
     ":core",
     ":cxf",
     ":data",
+    ":demoapp",
     ":network",
     ":testharness",
     ":ui",

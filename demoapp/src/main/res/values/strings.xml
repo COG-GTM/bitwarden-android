@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Bitwarden Password Playground</string>
+    <string name="generator_title">Password Generator</string>
+    <string name="options">Options</string>
+    <string name="generated_password">Generated password</string>
+    <string name="include_uppercase">Include uppercase letters (A–Z)</string>
+    <string name="include_numbers">Include numbers (0–9)</string>
+    <string name="include_symbols">Include symbols (!@#$%^&amp;*)</string>
+    <string name="generate">Generate</string>
+    <string name="copy">Copy</string>
+    <string name="password_copied">Password copied to clipboard</string>
+    <string name="strength_weak">Strength: Weak</string>
+    <string name="strength_good">Strength: Good</string>
+    <string name="strength_strong">Strength: Strong</string>
+</resources>

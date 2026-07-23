@@ -1,0 +1,17 @@
+com.bitwarden.demoapp
+drawable ic_launcher_foreground
+mipmap ic_launcher
+mipmap ic_launcher_round
+string app_name
+string copy
+string generate
+string generated_password
+string generator_title
+string include_numbers
+string include_symbols
+string include_uppercase
+string options
+string password_copied
+string strength_good
+string strength_strong
+string strength_weak
