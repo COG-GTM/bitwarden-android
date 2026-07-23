@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.bitwarden.demoapp-mergeDebugResources-64:/values-v16/values-v16.xml",
+            "map": [
+                {
+                    "source": "/home/ubuntu/.gradle/caches/9.5.0/transforms/e8ecebb4159ceba431a89fa4aabba0b3/transformed/appcompat-1.7.1/res/values-v16/values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "5",
+                        "endColumns": "12",
+                        "endOffsets": "223"
+                    }
+                }
+            ]
+        }
+    ]
+}

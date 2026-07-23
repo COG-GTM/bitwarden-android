@@ -1,0 +1,8 @@
+com.bitwarden.demoapp-pngs-0 /home/ubuntu/repos/bitwarden-android/demoapp/build/generated/res/pngs/debug
+com.bitwarden.demoapp-updated_navigation_xml-1 /home/ubuntu/repos/bitwarden-android/demoapp/build/generated/updated_navigation_xml/debug
+com.bitwarden.demoapp-packageDebugResources-2 /home/ubuntu/repos/bitwarden-android/demoapp/build/intermediates/incremental/debug/packageDebugResources/merged.dir
+com.bitwarden.demoapp-packageDebugResources-3 /home/ubuntu/repos/bitwarden-android/demoapp/build/intermediates/incremental/debug/packageDebugResources/stripped.dir
+com.bitwarden.demoapp-debug-4 /home/ubuntu/repos/bitwarden-android/demoapp/build/intermediates/merged_res/debug/mergeDebugResources
+com.bitwarden.demoapp-debug-5 /home/ubuntu/repos/bitwarden-android/demoapp/src/debug/res
+com.bitwarden.demoapp-main-6 /home/ubuntu/repos/bitwarden-android/demoapp/src/main/res
+gradleHome-0 /home/ubuntu/.gradle

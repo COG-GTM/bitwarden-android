@@ -1,0 +1,1 @@
+-keep,allowobfuscation,allowshrinking class com.bitwarden.demoapp.ui.generator.GeneratorViewModel

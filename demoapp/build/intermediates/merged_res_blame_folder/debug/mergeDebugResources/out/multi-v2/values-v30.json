@@ -1,0 +1,38 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.bitwarden.demoapp-mergeDebugResources-64:/values-v30/values-v30.xml",
+            "map": [
+                {
+                    "source": "/home/ubuntu/.gradle/caches/9.5.0/transforms/b5ea79108898cd7aba32230addc27774/transformed/core-splashscreen-1.2.0/res/values-v30/values-v30.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "7",
+                        "endColumns": "12",
+                        "endOffsets": "433"
+                    },
+                    "to": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "128",
+                        "endLines": "8",
+                        "endColumns": "12",
+                        "endOffsets": "506"
+                    }
+                },
+                {
+                    "source": "/home/ubuntu/.gradle/caches/9.5.0/transforms/f867abe7cc59f0c3b3ee7ed15364fd36/transformed/material3/res/values-v30/values-v30.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "72",
+                        "endOffsets": "123"
+                    }
+                }
+            ]
+        }
+    ]
+}
